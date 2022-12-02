@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  name         String
+  bio          String?       @db.VarChar(300)
+  perfilPhoto  String?
+  password     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  posts        Post[]
+  Comments     Comments[]
+  Like         Like[]
+  refreshToken RefreshToken?
+  followers    Follows[]     @relation("follower")
+  following    Follows[]     @relation("following")
+  message      message[]     @relation("sender")
+  messageRec   message[]     @relation("receptor")
+  Room         Room[]        @relation("sender")
+  RoomRec      Room[]        @relation("receptor")
+
+  @@index([email])
+  @@map("users")
+}
+
+model Follows {
+  follower    User   @relation("following", fields: [followerId], references: [id])
+  followerId  String
+  following   User   @relation("follower", fields: [followingId], references: [id])
+  followingId String
+
+  @@id([followerId, followingId])
+}
+
+model Post {
+  id        String     @id @default(uuid())
+  content   String?
+  author    User       @relation(fields: [authorId], references: [id])
+  authorId  String
+  image     String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Comments  Comments[]
+  Like      Like[]
+
+  @@map("posts")
+}
+
+model Like {
+  id     String @id @default(uuid())
+  Post   Post   @relation(fields: [postId], references: [id])
+  postId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@map("likes")
+}
+
+model Comments {
+  id       String @id @default(uuid())
+  Post     Post   @relation(fields: [postId], references: [id])
+  postId   String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+  content  String
+
+  @@map("comments")
+}
+
+model RefreshToken {
+  id        String @id @default(uuid())
+  expiresIn Int
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String @unique
+
+  @@map("refresh_token")
+}
+
+model Room {
+  id        String @id @default(uuid())
+  user      User   @relation("sender", fields: [userId], references: [id])
+  userId    String
+  userRec   User   @relation("receptor", fields: [userRecId], references: [id])
+  userRecId String
+
+  @@map("room")
+}
+
+model message {
+  id        String   @id @default(uuid())
+  user      User     @relation("sender", fields: [userSend], references: [id])
+  message   String
+  userSend  String
+  to        User     @relation("receptor", fields: [userRec], references: [id])
+  userRec   String
+  createdAt DateTime @default(now())
+}
