@@ -5,23 +5,6 @@ import { Token } from "../../provider/accessToken";
 const tokenPorvider = new Token();
 export class PostController {
  
-  async getPostById(req: Request, res: Response) {
-    const id = req.params.id;
-
-    try {
-      const postReq = await client.$queryRaw`
-        select posts.id, content, name, users.id as userId, "perfilPhoto", image  from posts 
-        inner join users on users.id = posts."authorId"
-        where posts.id = ${id};  
-      `;
-      if (!postReq) throw "Post not find!";
-
-      res.status(200).send(postReq);
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  }
-
   async update(req: Request, res: Response) {
     const { content } = req.body;
     const image = req.files as Express.Multer.File[];
@@ -123,57 +106,6 @@ export class PostController {
     const posts = await post.findMany();
     if (!posts) return res.status(400).json({ error: "Post not found!" });
     res.status(200).json(posts);
-  }
-
-  async getPostByUser(req: Request, res: Response) {
-    const userId = req.params.id;
-    const { start, limit } = req.query;
-
-    const startToNumber = Number(start);
-    const endToNumber = Number(limit);
-
-    try {
-      if (!userId) throw "Id invalid";
-      const posts: [] = await client.$queryRaw`
-      select users.name, users.id, users."perfilPhoto", posts.id, posts.content, posts.image 
-      from posts 
-      inner join users on users.id = posts."authorId"
-      where users.id = ${userId}
-      order by posts."createdAt" desc
-      Limit ${endToNumber} offset ${startToNumber} 
-    `;
-      if (posts.length === 0) throw "No any post found";
-
-      res.status(200).json(posts);
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  }
-
-  // get all posts from users I'm following
-  async myFeed(req: Request, res: Response) {
-    const id = req.params.id;
-    const { start, limit } = req.query;
-
-    const startToNumber = Number(start);
-    const endToNumber = Number(limit);
-    console.log(id)
-    try {
-      if (!id) throw "User invalid!";
-      const posts: string[] = await client.$queryRaw`
-      select "authorId", name,  posts.id, "perfilPhoto", image, content 
-       from posts
-      inner join "Follows" on  "Follows"."followerId" = posts."authorId"
-      inner join users on users.id  = posts."authorId"
-      where "Follows"."followingId" = ${id} OR posts."authorId" = ${id} OR "followerId" = ${id}
-      order by posts."createdAt" desc
-      Limit ${endToNumber} offset ${startToNumber} 
-        `;
-      if (posts.length === 0) throw "Posts not found!";
-      res.status(200).json(posts);
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
   }
 
   async getUsersPostLike(req: Request, res: Response) {

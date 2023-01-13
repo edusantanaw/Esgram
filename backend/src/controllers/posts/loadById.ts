@@ -1,4 +1,4 @@
-import { badRequest, catchError, notContent } from "../../helpers/httpReponse";
+import { badRequest, catchError } from "../../helpers/httpReponse";
 import { ILoadPostUsecase } from "../../protocols/usecases/post/load";
 
 export class LoadPostById {
@@ -8,6 +8,7 @@ export class LoadPostById {
     try {
       if (!id) return badRequest("Post id is required!");
       const post = await this.loadPostUsecase.loadById(id);
+      if (!post) return badRequest("post not exists!");
       return post;
     } catch (error) {
       return catchError(error);

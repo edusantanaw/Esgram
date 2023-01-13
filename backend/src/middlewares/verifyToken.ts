@@ -10,9 +10,7 @@ export function verifyTokenExists(
   next: NextFunction
 ) {
   const authToken = req.headers.authorization;
-
   if (!authToken) return res.status(401).json({ message: "Token not exists" });
-
   const token = authToken.split(" ")[1];
   try {
     verify(token, secret_token);
