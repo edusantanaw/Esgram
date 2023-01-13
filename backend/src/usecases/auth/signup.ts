@@ -2,8 +2,9 @@ import { UserCreate } from "../../entities/user";
 import { IEncrypter } from "../../protocols/helpers/encrypter";
 import { IGenerateToken } from "../../protocols/helpers/generateToken";
 import { IUserRepository } from "../../protocols/repository/user";
+import { ISignupUsecase } from "../../protocols/usecases/auth/auth";
 
-export class SignUsecase {
+export class SignUsecase implements ISignupUsecase {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly encrypter: IEncrypter,

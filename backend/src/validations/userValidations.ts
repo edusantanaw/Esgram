@@ -1,6 +1,5 @@
 import * as yup from "yup";
 
-// schemas validations
 const emailSchema = yup.object({
   email: yup.string().email().required(),
 });
@@ -13,7 +12,6 @@ const nameSchema = yup.object({
   name: yup.string().min(5).max(15).required(),
 });
 
-// validation function
 export async function validate(value: string, type: string): Promise<void> {
   let res = false;
 
