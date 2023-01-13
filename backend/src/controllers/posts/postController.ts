@@ -10,18 +10,6 @@ export class PostController {
     res.status(200).json(posts);
   }
 
-  async getUsersPostLike(req: Request, res: Response) {
-    const id = req.params.id;
-    const userLike = await like.findMany({
-      where: {
-        postId: id,
-      },
-    });
-    if (!userLike) return res.status(400).json({ error: "Users not found!" });
-
-    res.status(200).json(userLike);
-  }
-
   async addComment(req: Request, res: Response) {
     const id = req.params.id;
     const { comment } = req.body;
@@ -53,7 +41,6 @@ export class PostController {
 
   async getPostComments(req: Request, res: Response) {
     const id = req.params.id;
-
     try {
       if (!id) res.status(400).json({ error: "Id invalid!" });
       const postComments: string[] = await client.$queryRaw`
