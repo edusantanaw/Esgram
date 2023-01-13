@@ -5,6 +5,13 @@ export function badRequest(msg: string) {
   };
 }
 
+export function ok(data: unknown) {
+  return {
+    statusCode: 200,
+    body: data,
+  };
+}
+
 export function Unauthorized(msg: string) {
   return {
     statusCode: 401,
