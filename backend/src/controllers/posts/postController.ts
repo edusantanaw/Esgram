@@ -1,4 +1,4 @@
-import { post, like, client, comments, user } from "../../prisma/client";
+import { post, like, client, comments } from "../../prisma/client";
 import { Request, Response } from "express";
 import { Token } from "../../provider/accessToken";
 
@@ -161,12 +161,8 @@ export class PostController {
     try {
       if (!userId) throw "Id invalid";
       const posts: [] = await client.$queryRaw`
-<<<<<<< HEAD
       select users.name, users.id, users."perfilPhoto", posts.id, posts.content, posts.image 
       from posts 
-=======
-      select users.name, users.id, users."perfilPhoto", posts.id, posts.content, posts.image from posts 
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
       inner join users on users.id = posts."authorId"
       where users.id = ${userId}
       order by posts."createdAt" desc
@@ -187,7 +183,6 @@ export class PostController {
 
     const startToNumber = Number(start);
     const endToNumber = Number(limit);
-<<<<<<< HEAD
     console.log(id)
     try {
       if (!id) throw "User invalid!";
@@ -197,15 +192,6 @@ export class PostController {
       inner join "Follows" on  "Follows"."followerId" = posts."authorId"
       inner join users on users.id  = posts."authorId"
       where "Follows"."followingId" = ${id} OR posts."authorId" = ${id} OR "followerId" = ${id}
-=======
-    try {
-      if (!id) throw "User invalid!";
-      const posts: string[] = await client.$queryRaw`
-      select "authorId", name,  posts.id, "perfilPhoto", image, content  from posts
-      inner join "Follows" on  "Follows"."followerId" = posts."authorId"
-      inner join users on users.id  = posts."authorId"
-      where "Follows"."followingId" = ${id} OR posts."authorId" = ${id}
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
       order by posts."createdAt" desc
       Limit ${endToNumber} offset ${startToNumber} 
         `;
