@@ -1,14 +1,10 @@
-import { Comments } from "@prisma/client";
 import {
   badRequest,
   catchError,
   notContent,
   ok,
 } from "../../helpers/httpReponse";
-
-interface ILoadCommetsUsecase {
-  execute: (postId: string) => Promise<Comments[] | null>;
-}
+import { ILoadCommetsUsecase } from "../../protocols/usecases/comments/load";
 
 export class LoadPostComments {
   constructor(private readonly loadCommentsUsecase: ILoadCommetsUsecase) {}

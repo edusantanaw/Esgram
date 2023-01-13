@@ -1,4 +1,4 @@
-import { post, like, client, comments } from "../../prisma/client";
+import { post,  client, comments } from "../../prisma/client";
 import { Request, Response } from "express";
 import { Token } from "../../provider/accessToken";
 

@@ -1,25 +1,21 @@
 import { client, comments } from "../prisma/client";
+import { iComment, ICommentRepository } from "../protocols/repository/comment";
 
-type iComment = {
-  authorId: string;
-  content: string;
-  postId: string;
-};
-
-export class CommentRepository {
-  async newComment(data: iComment) {
+export class CommentRepository implements ICommentRepository {
+  async create(data: iComment) {
     const comment = await comments.create({
       data,
     });
     return comment;
   }
 
-  async comments(id: string) {
-    const postComments: string[] = await client.$queryRaw`
-          select  comments.content, comments.id , name, users.id as user, users."perfilPhoto" from comments 
+  async load(id: string) {
+    const postComments: iComment[] = await client.$queryRaw`
+          select  comments.content, comments.id ,
+          name, users.id as user, users."perfilPhoto" from comments 
           inner join users on users.id = comments."authorId"
-          where comments."postId"= ${id}
-        `;
+          where comments."postId"= ${id}`;
+    if (postComments.length === 0) return null;
     return postComments;
   }
 }

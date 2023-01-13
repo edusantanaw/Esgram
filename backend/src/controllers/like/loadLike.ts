@@ -1,14 +1,11 @@
-import { Like } from "@prisma/client";
 import {
   badRequest,
   catchError,
   notContent,
   ok,
 } from "../../helpers/httpReponse";
+import { ILoadLikeUsecase } from "../../protocols/usecases/like/load";
 
-interface ILoadLikeUsecase {
-  execute: (postId: string) => Promise<Like[] | null>;
-}
 
 export class LoadPostLikesUsecase {
   constructor(private readonly loadLikeUsecase: ILoadLikeUsecase) {}
