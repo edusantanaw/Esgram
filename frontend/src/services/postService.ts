@@ -1,18 +1,6 @@
 import { Api } from "../utils/api";
 import { getUserAndToken } from "./userService";
 
-<<<<<<< HEAD
-=======
-interface Post {
-  content?: string;
-  image: File | null;
-  url: string;
-}
-
-// 0800722240;
-
-
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
 export async function post(data: FormData) {
   const token = getUserAndToken()
   console.log(token)

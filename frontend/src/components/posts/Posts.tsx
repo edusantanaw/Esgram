@@ -1,6 +1,5 @@
 import { Post } from "./Post";
 import { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
 import { Api } from "../../utils/api";
 import { List } from "./styles";
 

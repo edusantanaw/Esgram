@@ -3,6 +3,7 @@ import { validate } from "../../validations/userValidations";
 import { user } from "../../prisma/client";
 import bcrypt from "bcrypt";
 import { Token } from "../../provider/accessToken";
+import { UserCreate } from "../../entities/user";
 
 interface User {
   name: string;
@@ -15,7 +16,7 @@ const tokenGenerate = new Token();
 
 export default class AuthController {
   async create(req: Request, res: Response) {
-    const { name, email, password, confirmPassword }: User = req.body;
+    const { name, email, password, confirmPassword }: UserCreate = req.body;
 
     try {
       await validate(email, "email");
