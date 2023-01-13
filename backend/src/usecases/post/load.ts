@@ -1,7 +1,8 @@
 import { dataPaginate } from "../../protocols/global/dataPaginate";
 import { IPostRepository } from "../../protocols/repository/post";
+import { ILoadPostUsecase } from "../../protocols/usecases/post/load";
 
-export class LoadPostUsecase {
+export class LoadPostUsecase implements ILoadPostUsecase {
   constructor(private readonly postRepository: IPostRepository) {}
 
   async loadById(id: string) {

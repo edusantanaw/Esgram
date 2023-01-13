@@ -12,6 +12,13 @@ export function ok(data: unknown) {
   };
 }
 
+export function notContent(msg: string) {
+  return {
+    statusCode: 204,
+    body: msg,
+  };
+}
+
 export function Unauthorized(msg: string) {
   return {
     statusCode: 401,
