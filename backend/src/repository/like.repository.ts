@@ -1,6 +1,9 @@
+import { Like } from "@prisma/client";
 import { like } from "../prisma/client";
+import { ILikeRepository } from "../protocols/repository/like";
 
-export class LikeRepository {
+
+export class LikeRepository implements ILikeRepository {
   async addLike(postId: string, userId: string) {
     await like.create({
       data: {
