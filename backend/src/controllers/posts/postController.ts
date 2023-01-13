@@ -118,7 +118,6 @@ export class PostController {
       if (!findPost) throw "Post not found";
       if (!findPost.id) throw "Post not found!";
 
-      // verify if like already exists
       const verifyLike: [] = await client.$queryRaw`
           select * from likes
           where "userId" = ${userToken.id}
