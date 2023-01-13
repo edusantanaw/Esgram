@@ -3,7 +3,7 @@ import { Post } from "@prisma/client";
 export type data = {
   image?: string;
   content?: string;
-  userId: string;
+  authorId: string;
 };
 
 export interface ICreatePostUsecase {

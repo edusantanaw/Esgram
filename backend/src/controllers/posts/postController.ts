@@ -4,32 +4,7 @@ import { Token } from "../../provider/accessToken";
 
 const tokenPorvider = new Token();
 export class PostController {
-  async newPost(req: Request, res: Response) {
-    const { content } = req.body;
-
-    const image = req.file as Express.Multer.File;
-    const user = await tokenPorvider.getUserByToken(req);
-
-    try {
-      if (!user) throw "User is invalid";
-      if (!image && !content) throw "Content/image not find!";
-      let img = "";
-      if (image) img = image.filename;
-
-      const newPost = await post.create({
-        data: {
-          authorId: user.id,
-          content: content,
-          image: img,
-        },
-      });
-
-      res.status(201).json(newPost);
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  }
-
+ 
   async getPostById(req: Request, res: Response) {
     const id = req.params.id;
 
