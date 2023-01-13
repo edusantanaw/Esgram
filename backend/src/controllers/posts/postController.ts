@@ -4,52 +4,6 @@ import { Token } from "../../provider/accessToken";
 
 const tokenPorvider = new Token();
 export class PostController {
-  async addLike(req: Request, res: Response) {
-    const postId = req.params.post;
-    const userToken = await tokenPorvider.getUserByToken(req);
-
-    try {
-      if (!postId) throw "Post invalid!";
-      if (!userToken) throw "User not found!";
-
-      const findPost = await post.findFirst({
-        where: {
-          id: postId,
-        },
-        select: {
-          Like: true,
-          id: true,
-        },
-      });
-      if (!findPost) throw "Post not found";
-      if (!findPost.id) throw "Post not found!";
-
-      const verifyLike: [] = await client.$queryRaw`
-          select * from likes
-          where "userId" = ${userToken.id}
-          AND "postId" = ${postId}
-      `;
-      if (verifyLike.length > 0) {
-        await like.deleteMany({
-          where: {
-            postId: postId,
-            userId: userToken.id,
-          },
-        });
-      } else {
-        await like.create({
-          data: {
-            userId: userToken.id,
-            postId: findPost.id,
-          },
-        });
-      }
-      res.status(200).json("success");
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  }
-
   async getAllPosts(req: Request, res: Response) {
     const posts = await post.findMany();
     if (!posts) return res.status(400).json({ error: "Post not found!" });
