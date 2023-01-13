@@ -5,35 +5,6 @@ import { Token } from "../../provider/accessToken";
 const tokenPorvider = new Token();
 export class PostController {
  
-  async update(req: Request, res: Response) {
-    const { content } = req.body;
-    const image = req.files as Express.Multer.File[];
-    const id = req.params.id;
-
-    try {
-      if (!image && !content) throw "Content/image invalid!";
-      const findPost = await post.findFirst({
-        where: {
-          id: id,
-        },
-      });
-      if (!findPost) throw "Post not found!";
-
-      const postUpdated = await post.update({
-        where: {
-          id: id,
-        },
-        data: {
-          image: image[0].filename,
-          content: content,
-        },
-      });
-      res.status(200).json(postUpdated);
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  }
-
   async deletePost(req: Request, res: Response) {
     const id = req.params.id;
     try {
