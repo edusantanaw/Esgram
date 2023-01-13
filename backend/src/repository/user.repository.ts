@@ -1,8 +1,8 @@
 import { User } from "../entities/user";
 import { user } from "../prisma/client";
-import { userRepository } from "../protocols/repository/user";
+import { IUserRepository } from "../protocols/repository/user";
 
-export class UserRepository implements userRepository {
+export class UserRepository implements IUserRepository {
   async findByEmail(email: string) {
     const userReponse = await user.findFirst({
       where: {
