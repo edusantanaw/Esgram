@@ -1,6 +1,7 @@
 import { IPost, IPostRepository } from "../../protocols/repository/post";
+import { IUpdatePostUsecase } from "../../protocols/usecases/post/update";
 
-export class UpdatePostUsecase {
+export class UpdatePostUsecase implements IUpdatePostUsecase {
   constructor(private readonly postRepository: IPostRepository) {}
 
   async execute(data: IPost) {
