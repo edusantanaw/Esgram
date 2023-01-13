@@ -1,12 +1,5 @@
 import { badRequest, catchError, ok } from "../../helpers/httpReponse";
-
-interface IDeletePostUsecase {
-  execute: (data: data) => Promise<void>;
-}
-type data = {
-  postId: string;
-  userId: string;
-};
+import { IDeletePostUsecase, data } from "../../protocols/usecases/post/delete";
 
 export class DeletePostController {
   constructor(private readonly deletePostUsecase: IDeletePostUsecase) {}
