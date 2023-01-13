@@ -4,29 +4,6 @@ import { Token } from "../../provider/accessToken";
 
 const tokenPorvider = new Token();
 export class PostController {
- 
-  async deletePost(req: Request, res: Response) {
-    const id = req.params.id;
-    try {
-      const findPost = await post.findFirst({
-        where: {
-          id: id,
-        },
-      });
-      if (!findPost) throw "Post no found!";
-
-      await post.delete({
-        where: {
-          id: id,
-        },
-      });
-
-      res.status(200).json("Post deleted!");
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  }
-
   async addLike(req: Request, res: Response) {
     const postId = req.params.post;
     const userToken = await tokenPorvider.getUserByToken(req);

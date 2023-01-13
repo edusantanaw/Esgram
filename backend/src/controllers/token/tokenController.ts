@@ -17,6 +17,4 @@ export class RefreshToken {
 
     return token
   }
-
-  
 }
