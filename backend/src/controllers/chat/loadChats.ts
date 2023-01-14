@@ -6,19 +6,15 @@ import {
 } from "../../helpers/httpReponse";
 import { ILoadChatUsecase } from "../../protocols/repository/chat";
 
-export class LoadChatMessagesController {
+export class LoadChatsController {
   constructor(private readonly loadChatUseCase: ILoadChatUsecase) {}
 
-  async handle({ follower, userId }: { userId: string; follower: string }) {
+  async handle({ userId }: { userId: string }) {
     try {
-      if (!follower) return badRequest("Follower is required!");
       if (!userId) return badRequest("User id is required!");
-      const messages = await this.loadChatUseCase.loadMessages(
-        userId,
-        follower
-      );
-      if (!messages) return notContent("messages");
-      return ok(messages);
+      const chats = await this.loadChatUseCase.loadChats(userId);
+      if (!chats) return notContent("chats");
+      return ok(chats);
     } catch (error) {
       return catchError(error);
     }

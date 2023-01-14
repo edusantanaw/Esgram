@@ -7,30 +7,6 @@ interface user {
 }
 
 export default class ChatMessage {
-  async getAllMessage(req: Request, res: Response) {
-    const { user, follower } = req.query;
-    if (!user) return;
-    if (!follower) return;
-    const messages: any = await message.findMany({
-      where: {
-        OR: [
-          {
-            userSend: user.toString(),
-            userRec: follower.toString(),
-          },
-          {
-            userSend: follower.toString(),
-            userRec: user.toString(),
-          },
-        ],
-      },
-    });
-    if (messages.lenght === 0)
-      res.status(400).json({ error: "Message not found!" });
-
-    res.status(200).json(messages);
-  }
-
   async getUserMessage(req: Request, res: Response) {
     const id = req.params.id;
     try {

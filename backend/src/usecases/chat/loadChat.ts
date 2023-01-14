@@ -1,6 +1,7 @@
-import { IChatRopository, user } from "../../protocols/repository/chat";
+import { IChatRopository, ILoadChatUsecase, user } from "../../protocols/repository/chat";
 
-export class LoadChatUsecase {
+
+export class LoadChatUsecase implements ILoadChatUsecase {
   constructor(private readonly chatRepository: IChatRopository) {}
   async loadMessages(userId: string, follower: string) {
     const messages = await this.chatRepository.loadMessageByChat(
