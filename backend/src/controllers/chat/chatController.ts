@@ -33,7 +33,6 @@ export default class ChatMessage {
 
   async getUserMessage(req: Request, res: Response) {
     const id = req.params.id;
-
     try {
       if (!id) throw "User not found!";
       const messages: user[] = await client.$queryRaw`
