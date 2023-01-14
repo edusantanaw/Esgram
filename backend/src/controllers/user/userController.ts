@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { validate } from "../../validations/userValidations";
 import { user, client, follows, room } from "../../prisma/client";
 import bcrypt from "bcrypt";
 import { Token } from "../../provider/accessToken";
