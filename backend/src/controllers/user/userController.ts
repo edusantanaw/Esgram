@@ -15,53 +15,6 @@ interface User {
 const tokenPorvider = new Token();
 
 export class UserController {
-  async update(req: Request, res: Response) {
-    const { name, email, bio }: User = req.body;
-
-    const perfilPhoto = req.file as Express.Multer.File;
-    const id = req.params.id;
-
-    try {
-      await validate(name, "name");
-      if (email) await validate(email, "email");
-
-      const findUser = await user.findFirst({
-        where: {
-          id: id,
-        },
-      });
-      if (!findUser) throw "User not found!";
-      let photo: string | null = "";
-      if (perfilPhoto) photo = perfilPhoto.filename;
-      else photo = findUser.perfilPhoto;
-
-      if (email && findUser.email !== email) {
-        const findEmail = await user.findFirst({
-          where: {
-            email: email,
-          },
-        });
-        if (findEmail) throw "Email is already being used!";
-      }
-
-      const userUpdated = await user.update({
-        where: {
-          id: id,
-        },
-        data: {
-          name: name,
-          email: email,
-          bio: bio,
-          perfilPhoto: photo,
-        },
-      });
-
-      res.status(201).json(userUpdated);
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  }
-
   async updatePassword(req: Request, res: Response) {
     const { actualPassword, confirmPassword, password }: User = req.body;
     const id = req.params.id;
@@ -95,24 +48,6 @@ export class UserController {
       });
 
       res.status(200).json("user updated successfully!");
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  }
-
-  async findUserByName(req: Request, res: Response) {
-    const name = req.params.name;
-
-    try {
-      if (!name) throw "Name invalid!";
-      const users = await client.$queryRaw`
-            select * from users
-            where name like ${`${name}%`}
-        `;
-
-      if (!users) throw "User not found!";
-
-      res.status(201).json(users);
     } catch (error) {
       res.status(400).json({ error: error });
     }

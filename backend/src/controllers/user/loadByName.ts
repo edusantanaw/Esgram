@@ -6,7 +6,7 @@ import {
 } from "../../helpers/httpReponse";
 import { ILoadUserUsecase } from "../../protocols/usecases/user/load";
 
-export class LoadUserByName {
+export class LoadUserByNameController {
   constructor(private readonly loadUserUsecase: ILoadUserUsecase) {}
 
   async handle({ name }: { name: string }) {
