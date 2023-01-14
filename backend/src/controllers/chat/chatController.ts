@@ -1,5 +1,4 @@
-import { client, message, room } from "../../prisma/client";
-import { Request, Response } from "express";
+import { client, message, room } from "../../prisma/client";import { Request, Response } from "express";
 
 interface user {
   id: string;
@@ -10,7 +9,6 @@ interface user {
 export default class ChatMessage {
   async getAllMessage(req: Request, res: Response) {
     const { user, follower } = req.query;
-
     if (!user) return;
     if (!follower) return;
     const messages: any = await message.findMany({
@@ -43,9 +41,7 @@ export default class ChatMessage {
           inner join users on  users.id = message."userSend" 
           where "userSend" = ${id} or "userRec" = ${id}
         `;
-      const filter = messages.filter((users: user) =>
-        users.id !== id ? users : ""
-      );
+      const filter = messages.filter((users: user) => users.id !== id);
       res.status(200).json(filter);
     } catch (error) {
       res.status(400).json({ error: error });
