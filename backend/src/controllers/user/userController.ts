@@ -15,43 +15,6 @@ interface User {
 const tokenPorvider = new Token();
 
 export class UserController {
-  async updatePassword(req: Request, res: Response) {
-    const { actualPassword, confirmPassword, password }: User = req.body;
-    const id = req.params.id;
-    try {
-      validate(password, "password");
-
-      if (password !== confirmPassword) throw "Passwords must be equals!";
-      const findUser = await user.findFirst({
-        where: {
-          id: id,
-        },
-      });
-      if (!findUser) throw "User not found!";
-
-      const verifyPassword = await bcrypt.compare(
-        actualPassword,
-        findUser.password
-      );
-      if (!verifyPassword) throw "Password invalid!";
-
-      const salt = await bcrypt.genSalt(10);
-      const hashPassword = await bcrypt.hash(password, salt);
-
-      await user.update({
-        where: {
-          id: id,
-        },
-        data: {
-          password: hashPassword,
-        },
-      });
-
-      res.status(200).json("user updated successfully!");
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  }
 
   async addFollow(req: Request, res: Response) {
     // follower user
@@ -95,32 +58,6 @@ export class UserController {
     } catch (error) {
       res.status(400).json({ error: error });
     }
-  }
-
-  async getUserFollowing(req: Request, res: Response) {
-    const id = req.params.id;
-
-    const followers: object[] = await client.$queryRaw`
-      select name, users.id, "perfilPhoto" from "Follows"
-      inner join users on users.id = "Follows"."followerId"
-      where "Follows"."followingId" = ${id} 
-    `;
-    if (followers.length === 0)
-      return res.status(400).json({ error: "not found any follower!" });
-    res.status(200).json(followers);
-  }
-
-  async getUserFollowers(req: Request, res: Response) {
-    const id = req.params.id;
-    const followings: object[] = await client.$queryRaw`
-    select name, users.id, "perfilPhoto" from "Follows"
-    inner join users on users.id = "Follows"."followingId"
-    where "Follows"."followerId" = ${id}; 
-  `;
-
-    if (followings.length === 0)
-      return res.status(400).json({ error: "not found any follower!" });
-    res.status(200).json(followings);
   }
 
   async getAllUsers(req: Request, res: Response) {
