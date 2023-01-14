@@ -15,4 +15,5 @@ export interface IUserRepository {
   findById: (id: string) => Promise<userReponse | null>;
   findByName: (name: string) => Promise<userReponse[] | null>;
   loadAll: () => Promise<userReponse[] | null>;
+  update: (data: updateUser) => Promise<userReponse>;
 }
