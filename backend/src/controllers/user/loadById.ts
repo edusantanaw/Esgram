@@ -1,11 +1,5 @@
-import { User } from "@prisma/client";
 import { badRequest, catchError, ok } from "../../helpers/httpReponse";
-
-interface ILoadUserUsecase {
-  loadById: (id: string) => Promise<User>;
-  loadAll: () => Promise<User[] | null>;
-  loadByName: (name: string) => Promise<User[] | null>;
-}
+import { ILoadUserUsecase } from "../../protocols/usecases/user/load";
 
 export class LoadUserByIdController {
   constructor(private readonly loadUserUsecase: ILoadUserUsecase) {}

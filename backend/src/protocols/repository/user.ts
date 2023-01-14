@@ -13,4 +13,6 @@ export interface IUserRepository {
   findByEmail: (email: string) => Promise<userReponse | null>;
   create: (Data: User) => Promise<userReponse>;
   findById: (id: string) => Promise<userReponse | null>;
+  findByName: (name: string) => Promise<userReponse[] | null>;
+  loadAll: () => Promise<userReponse[] | null>;
 }

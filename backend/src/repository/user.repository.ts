@@ -1,6 +1,7 @@
 import { User } from "../entities/user";
 import { client, user } from "../prisma/client";
 import { IUserRepository, updateUser } from "../protocols/repository/user";
+import { User as userResponse } from "@prisma/client";
 
 export class UserRepository implements IUserRepository {
   async findByEmail(email: string) {
@@ -28,9 +29,10 @@ export class UserRepository implements IUserRepository {
   }
 
   async findByName(name: string) {
-    const users = await client.$queryRaw`
+    const users: userResponse[] = await client.$queryRaw`
     select * from users
     where name like ${`${name}%`}`;
+    if(users.length === 0) return null
     return users;
   }
 

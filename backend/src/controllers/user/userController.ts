@@ -15,19 +15,6 @@ interface User {
 const tokenPorvider = new Token();
 
 export class UserController {
-  async getUserById(req: Request, res: Response) {
-    const id = req.params.id;
-
-    const userReq = await user.findFirst({
-      where: {
-        id: id,
-      },
-    });
-    if (!userReq) res.status(400).json({ error: "User not found!" });
-
-    res.status(200).json(userReq);
-  }
-
   async update(req: Request, res: Response) {
     const { name, email, bio }: User = req.body;
 
@@ -190,7 +177,6 @@ export class UserController {
 
   async getUserFollowers(req: Request, res: Response) {
     const id = req.params.id;
-
     const followings: object[] = await client.$queryRaw`
     select name, users.id, "perfilPhoto" from "Follows"
     inner join users on users.id = "Follows"."followingId"
