@@ -10,7 +10,6 @@ export class UpdateUseusecase {
       const verifyEmail = await this.userRepository.findByEmail(data.email);
       if (verifyEmail) throw "Email already being used!";
     }
-
     const updatedUser = await this.userRepository.update(data);
     return updatedUser;
   }

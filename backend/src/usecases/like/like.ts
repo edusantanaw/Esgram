@@ -3,7 +3,7 @@ import { IPostRepository } from "../../protocols/repository/post";
 import { IUserRepository } from "../../protocols/repository/user";
 import { data, ILikeUsecase } from "../../protocols/usecases/like/like";
 
-export class likeUsecase implements ILikeUsecase {
+export class LikeUsecase implements ILikeUsecase {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly likeRepository: ILikeRepository,
