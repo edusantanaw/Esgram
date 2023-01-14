@@ -1,4 +1,3 @@
-import { User } from "../entities/user";
 import { client, message, room } from "../prisma/client";
 import { IChatRopository, user } from "../protocols/repository/chat";
 
@@ -47,5 +46,15 @@ export class ChatRepository implements IChatRopository {
       },
     });
     return roomId;
+  }
+
+  async createRoom(userId: string, followingId: string) {
+    await room.create({
+      data: {
+        userId: userId,
+        userRecId: followingId,
+      },
+    });
+    return;
   }
 }

@@ -1,3 +1,4 @@
+import { IChatRopository } from "../../protocols/repository/chat";
 import { IFollowsRepository } from "../../protocols/repository/follows";
 import { IUserRepository } from "../../protocols/repository/user";
 import { IAddFollowUsecase } from "../../protocols/usecases/follows/add";
@@ -5,7 +6,8 @@ import { IAddFollowUsecase } from "../../protocols/usecases/follows/add";
 export class AddFollowUsecase implements IAddFollowUsecase {
   constructor(
     private readonly followsRepository: IFollowsRepository,
-    private readonly userRepository: IUserRepository
+    private readonly userRepository: IUserRepository,
+    private readonly chatRepository: IChatRopository
   ) {}
 
   async execute(userId: string, followingId: string) {
@@ -20,6 +22,7 @@ export class AddFollowUsecase implements IAddFollowUsecase {
         throw "User already following this person";
     }
     await this.followsRepository.add(userId, followingId);
+    await this.chatRepository.createRoom(userId, followingId);
     return;
   }
 }

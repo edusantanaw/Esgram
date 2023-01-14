@@ -36,4 +36,5 @@ export interface IChatRopository {
   ) => Promise<message[] | null>;
   loadChats: (userId: string) => Promise<user[] | null>;
   loadRoom: (userId: string, followerId: string) => Promise<room | null>;
+  createRoom: (userId: string, followingId: string) => Promise<void>
 }
