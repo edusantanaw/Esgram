@@ -11,7 +11,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 app.use("/", router);
-
 const httpServer = http.createServer(app);
 socket(httpServer);
 
