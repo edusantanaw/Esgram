@@ -1,7 +1,8 @@
 import { User } from "../entities/user";
 import { client, message, room } from "../prisma/client";
+import { IChatRopository, user } from "../protocols/repository/chat";
 
-export class ChatRepository {
+export class ChatRepository implements IChatRopository {
   async loadMessageByChat(userId: string, follower: string) {
     const messages = await message.findMany({
       where: {
@@ -22,7 +23,7 @@ export class ChatRepository {
   }
 
   async loadChats(userId: string) {
-    const messages: User[] = await client.$queryRaw`
+    const messages: user[] = await client.$queryRaw`
     select distinct users.id, message."userRec", message."userSend", name, "perfilPhoto" from message
     inner join users on  users.id = message."userSend" 
     where "userSend" = ${userId} or "userRec" = ${userId};`;
