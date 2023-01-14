@@ -7,21 +7,6 @@ interface user {
 }
 
 export default class ChatMessage {
-  async getUserMessage(req: Request, res: Response) {
-    const id = req.params.id;
-    try {
-      if (!id) throw "User not found!";
-      const messages: user[] = await client.$queryRaw`
-          select distinct users.id, message."userRec", message."userSend", name, "perfilPhoto" from message
-          inner join users on  users.id = message."userSend" 
-          where "userSend" = ${id} or "userRec" = ${id}
-        `;
-      const filter = messages.filter((users: user) => users.id !== id);
-      res.status(200).json(filter);
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  }
 
   async getUsersRoom(req: Request, res: Response) {
     const { userId, followerId } = req.query;
