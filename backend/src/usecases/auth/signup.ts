@@ -1,4 +1,4 @@
-import { UserCreate } from "../../entities/user";
+import { UserCreate } from "../../protocols/entities/user";
 import { IEncrypter } from "../../protocols/helpers/encrypter";
 import { IGenerateToken } from "../../protocols/helpers/generateToken";
 import { IUserRepository } from "../../protocols/repository/user";

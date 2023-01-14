@@ -1,4 +1,4 @@
-import { UserCreate } from "../../entities/user";
+import { UserCreate } from "../../protocols/entities/user";
 import { badRequest, catchError, ok } from "../../helpers/httpReponse";
 import { IValidator } from "../../protocols/helpers/validator";
 import { ISignupUsecase } from "../../protocols/usecases/auth/auth";

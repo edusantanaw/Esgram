@@ -1,5 +1,5 @@
 import { User as userReponse } from "@prisma/client";
-import { User } from "../../entities/user";
+import { User } from "../entities/user";
 
 export type updateUser = {
   id: string;

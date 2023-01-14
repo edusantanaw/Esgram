@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { UserCreate } from "../../../entities/user";
+import { UserCreate } from "../../entities/user";
 
 export interface ISignupUsecase {
   execute: (data: UserCreate) => Promise<{ accessToken: string; user: User }>;
