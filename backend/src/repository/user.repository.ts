@@ -32,7 +32,7 @@ export class UserRepository implements IUserRepository {
     const users: userResponse[] = await client.$queryRaw`
     select * from users
     where name like ${`${name}%`}`;
-    if(users.length === 0) return null
+    if (users.length === 0) return null;
     return users;
   }
 
@@ -48,5 +48,13 @@ export class UserRepository implements IUserRepository {
     const users = await user.findMany();
     if (users.length === 0) return null;
     return users;
+  }
+
+  async updatePassword(id: string, password: string) {
+    await user.update({
+      where: { id },
+      data: { password },
+    });
+    return
   }
 }
