@@ -1,6 +1,7 @@
 import { ICommentRepository } from "../../protocols/repository/comment";
+import { ILoadCommetsUsecase } from "../../protocols/usecases/comments/load";
 
-export class LoadPostCommentUsecase {
+export class LoadPostCommentUsecase implements ILoadCommetsUsecase {
   constructor(private readonly commentRepository: ICommentRepository) {}
 
   async execute(postId: string) {
