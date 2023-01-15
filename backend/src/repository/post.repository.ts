@@ -43,7 +43,7 @@ export class PostRepository implements IPostRepository {
 
   async getFeed(data: dataPaginate) {
     const { userId, limit, start } = data;
-      const posts: string[] = await client.$queryRaw`
+      const posts:IPost[] = await client.$queryRaw`
       select  users.name, users.id, users."perfilPhoto", posts.id, posts.content, posts.image from posts
       inner join users on users.id = posts."authorId"
       where  "authorId"=${userId} or "authorId" in (select "followingId" from "Follows"
