@@ -1,73 +1,135 @@
 import { Router } from "express";
-import AuthController from "../../controllers/auth/authController";
-import { PostController } from "../../controllers/posts/postController";
 import { verifyTokenExists } from "../middlewares/verifyToken";
 import { uploadImages } from "../middlewares/multer";
-import { UserController } from "../controllers/user/userController";
-import ChatMessage from "../controllers/chat/chatController";
-
-const authController = new AuthController();
-const postController = new PostController();
-const userController = new UserController();
-const chatController = new ChatMessage()
-
+import adapter from "../adapter/express-adapter";
+import { makeAuthController } from "../factory/controller/auth/auth";
+import { makeSignupController } from "../factory/controller/auth/signup";
+import { makeLoadFollowingsController } from "../factory/controller/follow/loadFollowings";
+import { makeLoadFollowersController } from "../factory/controller/follow/loadFollowes";
+import { makeLoadUserByNameController } from "../factory/controller/user/loadByName";
+import { makeLoadUseByIdController } from "../factory/controller/user/loadById";
+import { makeAddFollowController } from "../factory/controller/follow/add";
+import { makeUpdateUserController } from "../factory/controller/user/update";
+import { makeUpdateUserPasswordController } from "../factory/controller/user/updatePassword";
+import { makeLoadMessagesController } from "../factory/controller/chat/loadMessages";
+import { makeLoadChatsController } from "../factory/controller/chat/loadChat";
+import { makeLoadRoomController } from "../factory/controller/chat/loadRoom";
+import { makeFeedController } from "../factory/controller/post/feed";
+import { makeLoadPostPerfilController } from "../factory/controller/post/perfil";
+import { makeLoadPostCommentsController } from "../factory/controller/comments/load";
+import { makeLoadLikeUsecase } from "../factory/usecase/like/load";
+import { makeLoadPostLikesController } from "../factory/controller/like/loadLike";
+import { makeLoadPostByIdController } from "../factory/controller/post/loadById";
+import { makeCreatePostController } from "../factory/controller/post/create";
+import { makeAddLikeController } from "../factory/controller/like/add";
+import { makeAddCommentController } from "../factory/controller/comments/add";
+import { makeUpdatePostController } from "../factory/controller/post/update";
+import { makeDeletePostController } from "../factory/controller/post/delete";
 const router = Router();
 
-// auth routes
-router.post("/user", authController.create);
-router.post("/signin", authController.login);
+router.post("/user", adapter(makeAuthController()));
+router.post("/signin", adapter(makeSignupController()));
 
-// refresh token
-
-// user routes
-router.get("/users", verifyTokenExists, userController.getAllUsers);
 router.get(
   "/users/following/:id",
   verifyTokenExists,
-  userController.getUserFollowing
+  adapter(makeLoadFollowingsController())
 );
 router.get(
   "/users/followers/:id",
   verifyTokenExists,
-  userController.getUserFollowers
+  adapter(makeLoadFollowersController())
 );
-router.get("/users/:name", verifyTokenExists, userController.findUserByName);
-router.get('/users/perfil/:id', verifyTokenExists, userController.getUserById)
-router.post("/users/add/:id", verifyTokenExists, userController.addFollow);
+router.get(
+  "/users/:name",
+  verifyTokenExists,
+  adapter(makeLoadUserByNameController())
+);
+router.get(
+  "/users/perfil/:id",
+  verifyTokenExists,
+  adapter(makeLoadUseByIdController())
+);
+
 router.post(
-  "/users/:id",
+  "/users/add/:id",
+  verifyTokenExists,
+  adapter(makeAddFollowController())
+);
+router.patch(
+  "/users/update/:id",
   verifyTokenExists,
   uploadImages,
-  userController.update
+  adapter(makeUpdateUserController())
 );
-router.patch("/users/update/:id", verifyTokenExists, uploadImages, userController.update);
 router.patch(
   "/users/password/:id",
   verifyTokenExists,
-  userController.updatePassword
+  adapter(makeUpdateUserPasswordController())
 );
 
 // chat
-router.get("/messages", verifyTokenExists, chatController.getAllMessage)
-router.get("/messages/:id", verifyTokenExists, chatController.getUserMessage)
-router.get("/room", verifyTokenExists, chatController.getUsersRoom)
-
+router.get(
+  "/messages",
+  verifyTokenExists,
+  adapter(makeLoadMessagesController())
+);
+router.get(
+  "/messages/:id",
+  verifyTokenExists,
+  adapter(makeLoadChatsController())
+);
+router.get("/room", verifyTokenExists, adapter(makeLoadRoomController()));
 
 //posts routes
-router.get("/posts", verifyTokenExists, postController.getAllPosts);
-router.get('/posts/feed/:id', verifyTokenExists, postController.myFeed)
-router.get("/posts/user/:id", verifyTokenExists, postController.getPostByUser);
-router.get('/posts/comments/:id', verifyTokenExists, postController.getPostComments)
-router.get('/posts/like/:id', verifyTokenExists, postController.getUsersPostLike)
-router.get("/posts/:id", verifyTokenExists, postController.getPostById);
-router.post("/posts", verifyTokenExists, uploadImages, postController.newPost);
-router.post("/posts/like/:post", verifyTokenExists, postController.addLike);
-router.post("/posts/comments/:id", verifyTokenExists, postController.addComment)
-router.patch("/posts/:id", verifyTokenExists, postController.update);
-router.delete("/posts/:id", verifyTokenExists, postController.deletePost)
+router.get("/posts/feed/:id", verifyTokenExists, adapter(makeFeedController()));
+router.get(
+  "/posts/user/:id",
+  verifyTokenExists,
+  adapter(makeLoadPostPerfilController())
+);
+router.get(
+  "/posts/comments/:id",
+  verifyTokenExists,
+  adapter(makeLoadPostCommentsController())
+);
 
-// 08007001019
-
+router.get(
+  "/posts/like/:id",
+  verifyTokenExists,
+  adapter(makeLoadPostLikesController())
+);
+router.get(
+  "/posts/:id",
+  verifyTokenExists,
+  adapter(makeLoadPostByIdController())
+);
+router.post(
+  "/posts",
+  verifyTokenExists,
+  uploadImages,
+  adapter(makeCreatePostController())
+);
+router.post(
+  "/posts/like/:post",
+  verifyTokenExists,
+  adapter(makeAddLikeController())
+);
+router.post(
+  "/posts/comments/:id",
+  verifyTokenExists,
+  adapter(makeAddCommentController())
+);
+router.patch(
+  "/posts/:id",
+  verifyTokenExists,
+  adapter(makeUpdatePostController())
+);
+router.delete(
+  "/posts/:id",
+  verifyTokenExists,
+  adapter(makeDeletePostController())
+);
 
 
 export default router;

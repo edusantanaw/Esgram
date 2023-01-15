@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Controller } from "../../protocols/adapter/controller";
 
-const adapt = (method: Controller) => {
+const adapter = (method: Controller) => {
   return async (req: Request, res: Response) => {
     const httpResponse = await method.handle({
       ...req.body,
@@ -13,4 +13,4 @@ const adapt = (method: Controller) => {
   };
 };
 
-export default adapt;
+export default adapter;

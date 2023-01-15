@@ -5,7 +5,7 @@ import { IUpdatePostUsecase } from "../../protocols/usecases/post/update";
 export class UpdatePostController {
   constructor(private readonly updatePostUsecase: IUpdatePostUsecase) {}
 
-  async hadle(data: IPost) {
+  async handle(data: IPost) {
     const { authorId, content, image } = data;
     try {
       if (!authorId) return badRequest("Author id is required!");
