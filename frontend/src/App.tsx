@@ -9,25 +9,23 @@ import Home from "./pages/home/Home";
 import Auth from "./pages/auth/Auth";
 import Nav from "./layout/nav/Nav";
 import { Main } from "./pages/perfil/Main";
-import { useSelector } from "react-redux";
-import { selectUser } from "./slices/userSlices";
+import { userAuth } from "./hooks/auth";
 
 function App() {
-  const user = useSelector(selectUser)
-
+  const {isLogged} =userAuth()
   return (
     <Router>
       <Global />
-      {user.userReducer.logged && <Nav />}
+      {isLogged && <Nav />}
       <Routes>
-        <Route path="/" element={user.userReducer.logged ? <Home /> : <Navigate to="/auth" />} />
+        <Route path="/" element={isLogged ? <Home /> : <Navigate to="/auth" />} />
         <Route
           path="/auth"
-          element={!user.userReducer.logged ? <Auth /> : <Navigate to="/" />}
+          element={!isLogged ? <Auth /> : <Navigate to="/" />}
         />
         <Route
           path="/perfil/:id"
-          element={user.userReducer.logged ? <Main /> : <Navigate to="/auth" />}
+          element={isLogged ? <Main /> : <Navigate to="/auth" />}
         />
       </Routes>
     </Router>

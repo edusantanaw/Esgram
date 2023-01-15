@@ -34,7 +34,7 @@ const Posts = ({ url, depence }: { url: string; depence?: any }) => {
       rootMargin: "20px",
       threshold: 1.0,
     };
-
+console.log(data)
     const observer = new IntersectionObserver((entry) => {
       const target = entry[0];
       if (target.isIntersecting) {

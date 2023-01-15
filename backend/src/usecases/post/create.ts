@@ -9,9 +9,13 @@ export class CreatePostUsecase {
   ) {}
 
   async execute(data: data) {
+   try {
     const user = await this.userRepository.findById(data.authorId)
     if(!user) throw "User not found!"
     const post = await this.postRepository.create(data)
     return post
+   } catch (error) {
+    console.log(error)
+   }
   }
 }

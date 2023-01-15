@@ -37,7 +37,6 @@ const Login = ({ handleChange }: props) => {
   }, [userError]);
 
   function handleSignup(data: FieldValues) {
-    console.log(data);
     const config: login = {
       email: data.email,
       password: data.password,

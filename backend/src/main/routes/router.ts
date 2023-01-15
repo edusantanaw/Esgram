@@ -17,7 +17,6 @@ import { makeLoadRoomController } from "../factory/controller/chat/loadRoom";
 import { makeFeedController } from "../factory/controller/post/feed";
 import { makeLoadPostPerfilController } from "../factory/controller/post/perfil";
 import { makeLoadPostCommentsController } from "../factory/controller/comments/load";
-import { makeLoadLikeUsecase } from "../factory/usecase/like/load";
 import { makeLoadPostLikesController } from "../factory/controller/like/loadLike";
 import { makeLoadPostByIdController } from "../factory/controller/post/loadById";
 import { makeCreatePostController } from "../factory/controller/post/create";
@@ -27,8 +26,8 @@ import { makeUpdatePostController } from "../factory/controller/post/update";
 import { makeDeletePostController } from "../factory/controller/post/delete";
 const router = Router();
 
-router.post("/user", adapter(makeAuthController()));
-router.post("/signin", adapter(makeSignupController()));
+router.post("/user", adapter(makeSignupController()));
+router.post("/signin", adapter(makeAuthController()));
 
 router.get(
   "/users/following/:id",
@@ -82,9 +81,9 @@ router.get(
 router.get("/room", verifyTokenExists, adapter(makeLoadRoomController()));
 
 //posts routes
-router.get("/posts/feed/:id", verifyTokenExists, adapter(makeFeedController()));
+router.get("/posts/feed/:userId", verifyTokenExists, adapter(makeFeedController()));
 router.get(
-  "/posts/user/:id",
+  "/posts/user/:userId",
   verifyTokenExists,
   adapter(makeLoadPostPerfilController())
 );
@@ -105,7 +104,7 @@ router.get(
   adapter(makeLoadPostByIdController())
 );
 router.post(
-  "/posts",
+  "/posts/:authorId",
   verifyTokenExists,
   uploadImages,
   adapter(makeCreatePostController())

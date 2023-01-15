@@ -9,8 +9,13 @@ import {
 export class PostRepository implements IPostRepository {
   async create(data: IPostCreate) {
     const newPost = await post.create({
-      data: data,
+      data: {
+        authorId: data.authorId,
+        content: data.content,
+        image: data?.image?.filename,
+      },
     });
+    console.log(newPost);
     return newPost;
   }
 
@@ -38,15 +43,18 @@ export class PostRepository implements IPostRepository {
 
   async getFeed(data: dataPaginate) {
     const { userId, limit, start } = data;
-    const posts: IPost[] = await client.$queryRaw`
-    select "authorId", name,  posts.id, "perfilPhoto", image, content  from posts
-    inner join "Follows" on  "Follows"."followerId" = posts."authorId"
-    inner join users on users.id  = posts."authorId"
-    where "Follows"."followingId" = ${userId} OR posts."authorId" = ${userId} OR "followerId" = ${userId}
-    order by posts."createdAt" desc
-    Limit ${limit} offset ${start};`;
-    if (posts.length === 0) return null;
-    return posts;
+      const posts: string[] = await client.$queryRaw`
+      select  users.name, users.id, users."perfilPhoto", posts.id, posts.content, posts.image from posts
+      inner join users on users.id = posts."authorId"
+      where  "authorId"=${userId} or "authorId" in (select "followingId" from "Follows"
+      inner join users on users.id = "Follows"."followerId" 
+      where users.id = ${userId})
+      order by posts."createdAt" desc
+      Limit ${limit} offset ${start};
+`;
+      if (posts.length === 0) return null;
+      return posts;
+   
   }
 
   async userPost(data: dataPaginate) {

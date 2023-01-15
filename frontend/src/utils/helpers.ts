@@ -8,7 +8,8 @@ export function makeOptions() {
 }
 
 export function getUserAndToken() {
-  const user = JSON.parse(localStorage.getItem("App:user") || "{}");
+  const storage = localStorage.getItem("App:user");
+  const user = storage ? JSON.parse(storage) : null;
   const token = localStorage.getItem("@App:token");
   return { user, token };
 }

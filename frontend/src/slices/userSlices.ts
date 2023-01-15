@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { addFollow, auth, logout, update } from "../services/userService";
 
-const user = JSON.parse(localStorage.getItem("App:user") || "{}");
+const storageUser = localStorage.getItem("App:user");
+const user = storageUser ? JSON.parse(storageUser) : null;
+
 interface User {
-  id: string;
+  id?: string;
   name?: string;
   password: string;
   email: string;
@@ -26,18 +28,17 @@ interface Reducer {
 }
 
 const initialState: initial = {
-  user: user ? user : null,
+  user: user,
   error: false,
   success: false,
   loading: false,
-  logged: user.name ? true : false,
+  logged: user ? true : false,
 };
 
 export const userAuth = createAsyncThunk(
   "user/authenticate",
   async (user: User, thunkAPI) => {
     const response = await auth(user);
-    console.log(response);
     if (response.error) return thunkAPI.rejectWithValue(response.error);
     return response;
   }
@@ -47,7 +48,6 @@ export const userUpdate = createAsyncThunk(
   "user/update",
   async (data: FormData, thunkAPI) => {
     const response = await update(data);
-    console.log(response);
     if (response.error) return thunkAPI.rejectWithValue(response.error);
     return response;
   }
@@ -57,7 +57,6 @@ export const addUserFollow = createAsyncThunk(
   "user/follow",
   async (id: string, thunkAPI) => {
     const response = await addFollow(id);
-    console.log(response, id)
     if (response.error) return thunkAPI.rejectWithValue(response.error);
 
     return response;
@@ -82,13 +81,7 @@ export const userSlice = createSlice({
       .addCase(userAuth.pending, (state) => {
         state.loading = true;
         state.error = false;
-      })
-      .addCase(userAuth.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        state.success = true;
-        state.error = false;
-        state.logged = true;
+        state.logged = false;
       })
       .addCase(userAuth.rejected, (state, action) => {
         state.loading = false;
@@ -96,6 +89,13 @@ export const userSlice = createSlice({
         state.success = false;
         state.error = action.payload;
         state.logged = false;
+      })
+      .addCase(userAuth.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.success = true;
+        state.error = false;
+        state.logged = true;
       })
       .addCase(userLogout.pending, (state) => {
         state.loading = true;

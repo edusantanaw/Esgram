@@ -1,7 +1,9 @@
-import { Api } from "../utils/api";import { makeOptions } from "../utils/helpers";
+import { Api } from "../utils/api";
+import { makeOptions, getUserAndToken } from "../utils/helpers";
 
 export async function post(data: FormData) {
-  const response = await Api.post("/posts", data, makeOptions())
+  const {user} = getUserAndToken()
+  const response = await Api.post(`/posts/${user.id}`, data, makeOptions())
     .then((response) => response.data)
     .catch((error) => error.response.data);
 

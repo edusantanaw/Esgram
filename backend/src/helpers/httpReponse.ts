@@ -1,7 +1,7 @@
 export function badRequest(msg: string) {
   return {
     statusCode: 400,
-    body: msg,
+    body: {error: msg},
   };
 }
 
@@ -29,6 +29,6 @@ export function Unauthorized(msg: string) {
 export function catchError(error: unknown) {
   return {
     statusCode: 400,
-    body: error,
+    body: {error},
   };
 }

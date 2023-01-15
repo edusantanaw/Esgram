@@ -1,8 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";import {
   post as postService,
   addLike,
-  remove,
   newComment,
 } from "../services/postService";
 
@@ -27,9 +25,8 @@ export const newPost = createAsyncThunk(
   "post/new",
   async (post: FormData, thunkAPI) => {
     const response = await postService(post);
-    console.log(response);
     if (response.error) thunkAPI.rejectWithValue(response.error);
-
+console.log(response)
     return response;
   }
 );
@@ -38,7 +35,6 @@ export const postlike = createAsyncThunk(
   "post/addLike",
   async (id: string, thunkAPI) => {
     const response = await addLike(id);
-    console.log(response);
     if (response.error) thunkAPI.rejectWithValue(response.error);
 
     return response;
@@ -48,7 +44,7 @@ export const addNewComment = createAsyncThunk(
   "post/comment",
   async (data: { id: string; comment: string }, thunkAPI) => {
     const response = await newComment(data);
-    console.log(response);
+
     if (response.error) thunkAPI.rejectWithValue(response.error);
 
     return response;

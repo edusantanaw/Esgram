@@ -26,7 +26,9 @@ export const Main = () => {
       },
     })
       .then((response) => {
+        console.log(response)
         setResponse(response.data);
+
       })
       .finally(() => {
         setLoading(false);

@@ -41,7 +41,6 @@ export const Post = ({ post, key }: { post: post; key: number }) => {
       setLiked(true);
     }
   }, [data]);
-
   async function handleLike() {
     liked ? setLiked(false) : setLiked(true);
     console.log(liked);
@@ -58,10 +57,6 @@ export const Post = ({ post, key }: { post: post; key: number }) => {
       {showModal && <PostModal id={modalId} handleModal={handleModal} />}
       <Container onClick={() => setModalId(post.id)}>
         <div className="header_post">
-          <img
-            src={`http://localhost:5001/users/${post.perfilPhoto}`}
-            alt="user photo"
-          />
           <h3>{post.name}</h3>
         </div>
         <p>{post?.content}</p>

@@ -24,7 +24,7 @@ const Login = ({ handleChange }: props) => {
   const [loginError, setLoginError] = useState<string>("");
   const dispatch = useAppDispatch();
   const userError = useSelector(selectUser);
-  console.log(userError);
+
   useEffect(() => {
     if (userError.userReducer.error)
       setLoginError(userError.userReducer.error.toString());
@@ -37,7 +37,6 @@ const Login = ({ handleChange }: props) => {
       type: "/signin",
     };
 
-    console.log('1')
     dispatch(userAuth(config));
   }
 

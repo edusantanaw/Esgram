@@ -7,7 +7,7 @@ const adapter = (method: Controller) => {
       ...req.body,
       ...req.params,
       ...req.query,
-      image: req.file,
+      image: req?.file,
     });
     res.status(httpResponse.statusCode).json(httpResponse.body);
   };

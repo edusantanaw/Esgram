@@ -16,7 +16,9 @@ export class UserRepository implements IUserRepository {
   async create(data: User) {
     const newUser = await user.create({
       data: {
-        ...data,
+        name: data.name,
+        email: data.email,
+        password: data.password,
         perfilPhoto: "default.jpg",
       },
     });
@@ -55,6 +57,6 @@ export class UserRepository implements IUserRepository {
       where: { id },
       data: { password },
     });
-    return
+    return;
   }
 }

@@ -4,7 +4,7 @@ import { dataPaginate } from "../global/dataPaginate";
 export type IPostCreate = {
   authorId: string;
   content?: string;
-  image?: string;
+  image?: {filename: string};
 };
 
 export type IPost = {

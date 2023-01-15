@@ -41,6 +41,8 @@ model Follows {
   followingId String
 
   @@id([followerId, followingId])
+
+  @@map("follows")
 }
 
 model Post {

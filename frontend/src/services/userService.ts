@@ -11,10 +11,11 @@ export async function auth(data: User) {
     .then((response) => response.data)
     .catch((error) => error.response.data);
 
-  if (response.userResponse && response.accessToken) {
-    localStorage.setItem("App:user", JSON.stringify(response.userResponse));
+  if (response.user && response.accessToken) {
+    localStorage.setItem("App:user", JSON.stringify(response.user));
     localStorage.setItem("@App:token", response.accessToken);
   }
+  console.log(response)
   return response;
 }
 

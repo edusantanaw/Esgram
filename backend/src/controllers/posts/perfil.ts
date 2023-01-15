@@ -11,7 +11,9 @@ export class PerfilPostsCotroller {
   constructor(private readonly loadPostUsecase: ILoadPostUsecase) {}
 
   async handle(data: dataPaginate) {
-    const { userId } = data;
+    const { userId, limit, start } = data;
+    data.limit = Number(limit)
+    data.start = Number(start)
     if (!userId) return badRequest("User id is required!");
     try {
       const posts = await this.loadPostUsecase.loadPerfil(data);

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Container } from "../styles";
+import { useState } from "react";import { Container } from "../styles";
 import Follows from "./Follows";
 import { Posts } from "./Posts";
 import { useEffect } from "react";
@@ -10,8 +9,6 @@ import { RiUserFollowFill } from "react-icons/ri";
 import { useAppDispatch } from "../../../store/store";
 import { addUserFollow } from "../../../slices/userSlices";
 
-
-
 interface user {
   name: string;
   id: string;
@@ -21,10 +18,9 @@ interface user {
 }
 
 const Perfil = ({ data, current }: { data: user; current: boolean }) => {
- 
   const user = JSON.parse(localStorage.getItem("App:user") || "{}");
-const token = localStorage.getItem("@App:token");
-  
+  const token = localStorage.getItem("@App:token");
+
   const [following, setFollowing] = useState<user[]>([]);
   const [followers, setFollowers] = useState<user[]>([]);
   const [showFollowers, setShowFollowers] = useState(false);
@@ -53,11 +49,10 @@ const token = localStorage.getItem("@App:token");
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
-      .then((response) => {
-        const users = response.data;
-        setFollowing(users);
-      })
+    }).then((response) => {
+      const users = response.data;
+      setFollowing(users);
+    });
   }, [current]);
 
   function handleModal() {
@@ -74,7 +69,7 @@ const token = localStorage.getItem("@App:token");
   }
 
   async function handleAddFollow() {
-    setFollowersActual(true)
+    setFollowersActual(true);
     await dispatch(addUserFollow(data.id));
   }
 

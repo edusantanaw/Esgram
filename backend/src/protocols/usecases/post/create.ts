@@ -1,7 +1,7 @@
 import { Post } from "@prisma/client";
 
 export type data = {
-  image?: string;
+  image?: {filename: string};
   content?: string;
   authorId: string;
 };
