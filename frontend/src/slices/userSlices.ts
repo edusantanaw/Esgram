@@ -3,10 +3,7 @@ import { addFollow, auth, logout, update } from "../services/userService";
 
 const user = JSON.parse(localStorage.getItem("App:user") || "{}");
 interface User {
-<<<<<<< HEAD
   id: string;
-=======
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
   name?: string;
   password: string;
   email: string;

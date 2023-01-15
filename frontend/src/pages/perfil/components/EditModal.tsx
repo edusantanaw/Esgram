@@ -27,10 +27,6 @@ const EditModal = ({
 
   const handleImage = (e: React.FormEvent<HTMLInputElement>) => {
     const img = (e.target as HTMLInputElement).files;
-<<<<<<< HEAD
-=======
-    console.log(img);
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
     if (img) setImage(img[0]);
   };
 
@@ -74,11 +70,7 @@ const EditModal = ({
               type="text"
               {...register("name")}
               placeholder="edusantanaw"
-<<<<<<< HEAD
               defaultValue={data.name}
-=======
-              value={data.name}
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
             />
             <p className="error">
               {errors?.name && <>{errors.name.message} </>}
@@ -91,11 +83,7 @@ const EditModal = ({
               type="text"
               {...register("email")}
               placeholder="edusantanaw"
-<<<<<<< HEAD
               defaultValue={data.email}
-=======
-              value={data.email}
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
             />
             <p className="error">
               {errors?.email && <>{errors.email.message} </>}
@@ -103,11 +91,7 @@ const EditModal = ({
           </div>
           <div className="input">
             <label htmlFor="bio">Bio</label>
-<<<<<<< HEAD
             <textarea name="bio" defaultValue={data.bio} ref={bio} maxLength={255}></textarea>
-=======
-            <textarea name="bio" value={data.bio} ref={bio} maxLength={255}></textarea>
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
           </div>
           <input type="submit" />
         </form>

@@ -11,10 +11,9 @@ const NewPost = ({ handleModal }: { handleModal: () => void }) => {
   const content = useRef<HTMLTextAreaElement | null>(null);
   const [image, setImage] = useState<File | string>("");
   const navigate = useNavigate()
-  console.log(user.id)
+
   const handleImage = (e: React.FormEvent<HTMLInputElement>) => {
     const img = (e.target as HTMLInputElement).files;
-    console.log(img)
     if (img) setImage(img[0]);
   };
 

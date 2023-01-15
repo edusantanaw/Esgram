@@ -44,12 +44,8 @@ const UserChat = ({
       .catch((err) => {
         console.log(err);
       });
-<<<<<<< HEAD
     if (bottomRef.current)
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
-=======
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
   }, [userId]);
 
   useEffect(() => {
@@ -61,23 +57,15 @@ const UserChat = ({
       setRoom(response.data.id);
     });
   }, []);
-<<<<<<< HEAD
   if (bottomRef.current)
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-=======
-  bottomRef.current?.scrollIntoView({ behavior: "smooth" });
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
       setMessages((messages: message[]) => [...messages, data]);
     });
-<<<<<<< HEAD
     if (bottomRef.current)
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
-=======
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
   }, [socket]);
 
   function handleMessage() {
@@ -93,10 +81,7 @@ const UserChat = ({
       sendMessage(data);
     }
   }
-<<<<<<< HEAD
   bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-=======
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
 
   return (
     <Container>

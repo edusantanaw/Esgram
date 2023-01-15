@@ -1,6 +1,4 @@
-import { Api } from "../utils/api";
-
-// type equals signin or users
+import { Api } from "../utils/api";import { getUserAndToken, makeOptions } from "../utils/helpers";
 interface User {
   name?: string;
   password: string;
@@ -8,14 +6,6 @@ interface User {
   confirmPassword?: string;
   type: string;
 }
-
-export function getUserAndToken(type?: string){
-  const user = JSON.parse(localStorage.getItem("App:user") || "{}");
-  const token = localStorage.getItem('@App:token')
-  if(type === "user") return user
-  return token
-}
-
 export async function auth(data: User) {
   const response = await Api.post(data.type, data)
     .then((response) => response.data)
@@ -31,18 +21,16 @@ export async function auth(data: User) {
 export async function logout() {
   localStorage.removeItem("App:user");
   localStorage.removeItem("@App:token");
-
   return;
 }
 
 export async function update(data: FormData) {
- const user = getUserAndToken("user")
- const token = getUserAndToken()
-  const response = await Api.patch(`/users/update/${user.id}`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  const { user } = getUserAndToken();
+  const response = await Api.patch(
+    `/users/update/${user.id}`,
+    data,
+    makeOptions()
+  )
     .then((response) => response.data)
     .catch((error) => error.response.data);
   if (response.userUpdated)
@@ -52,14 +40,8 @@ export async function update(data: FormData) {
 }
 
 export async function addFollow(id: string) {
-  const token = getUserAndToken()
-  const response = await Api.post(`/users/add/${id}`, id, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  const response = await Api.post(`/users/add/${id}`, id, makeOptions())
     .then((response) => response.data)
     .catch((error) => error.response.data);
-  console.log(response);
   return response;
 }

@@ -54,15 +54,9 @@ export const Post = ({ post, key }: { post: post; key: number }) => {
   }
 
   return (
-<<<<<<< HEAD
     <div key={key}>
       {showModal && <PostModal id={modalId} handleModal={handleModal} />}
       <Container onClick={() => setModalId(post.id)}>
-=======
-    <>
-      {showModal && <PostModal id={modalId} handleModal={handleModal} />}
-      <Container key={key} onClick={() => setModalId(post.id)}>
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
         <div className="header_post">
           <img
             src={`http://localhost:5001/users/${post.perfilPhoto}`}
@@ -86,10 +80,6 @@ export const Post = ({ post, key }: { post: post; key: number }) => {
           <FiMessageSquare onClick={() => handleModal()} />
         </div>
       </Container>
-<<<<<<< HEAD
     </div>
-=======
-    </>
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
   );
 };

@@ -1,15 +1,7 @@
-import { Api } from "../utils/api";
-import { getUserAndToken } from "./userService";
+import { Api } from "../utils/api";import { makeOptions } from "../utils/helpers";
 
 export async function post(data: FormData) {
-  const token = getUserAndToken()
-  console.log(token)
-
-  const response = await Api.post("/posts", data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  const response = await Api.post("/posts", data, makeOptions())
     .then((response) => response.data)
     .catch((error) => error.response.data);
 
@@ -17,12 +9,7 @@ export async function post(data: FormData) {
 }
 
 export async function remove(id: string) {
-  const token = getUserAndToken()
-  const response = await Api.post(`/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  const response = await Api.post(`/${id}`, makeOptions())
     .then((response) => response.data)
     .catch((error) => error.response.data);
 
@@ -30,27 +17,16 @@ export async function remove(id: string) {
 }
 
 export async function addLike(id: string) {
-  const token = getUserAndToken()
-  const response = await Api.post(`/posts/like/${id}`, id, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  const response = await Api.post(`/posts/like/${id}`, id, makeOptions())
     .then((response) => response.data)
     .catch((error) => error.response.data);
-  console.log(response);
   return response;
 }
 
 export async function newComment(data: { id: string; comment: string }) {
-  const token = getUserAndToken()
-  const response = Api.post(`/posts/comments/${data.id}`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  const response = Api.post(`/posts/comments/${data.id}`, data, makeOptions())
     .then((response) => response.data)
     .catch((error) => error.response.data);
 
-    return response
+  return response;
 }

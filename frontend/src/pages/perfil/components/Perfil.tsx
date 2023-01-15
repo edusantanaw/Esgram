@@ -74,10 +74,7 @@ const token = localStorage.getItem("@App:token");
   }
 
   async function handleAddFollow() {
-<<<<<<< HEAD
     setFollowersActual(true)
-=======
->>>>>>> f174fc661d8f9cdaea1388c195722ebff6b7eb08
     await dispatch(addUserFollow(data.id));
   }
 

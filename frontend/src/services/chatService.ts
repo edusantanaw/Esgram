@@ -1,5 +1,4 @@
 import io from "socket.io-client";
-
 const socket = io("http://localhost:5001");
 const user = JSON.parse(localStorage.getItem("App:user") || "{}");
 
@@ -18,10 +17,9 @@ export function sendMessage(data: {
   to: string;
   room: string;
 }) {
-    console.log(data)
   if (data) {
     socket.emit("send_message", data);
   }
 }
 
-  export default socket
+export default socket;

@@ -1,5 +1,8 @@
 import { Server } from "http";import socket from "socket.io";
-import { message, room } from "../../prisma/client";
+import { message } from "../../prisma/client";
+import { makeLoadRoomController } from "../factory/controller/chat/loadRoom";
+
+const roomController = makeLoadRoomController();
 
 export default (server: Server) => {
   const io = new socket.Server(server, {
@@ -9,31 +12,21 @@ export default (server: Server) => {
     },
   });
   io.on("connect", (socket) => {
+
     socket.on("disconnect", () => {
       console.log(`User desconnected ${socket.id}`);
     });
+    
     socket.on("join_room", async (data) => {
-      console.log(data);
-      const roomUser = await room.findFirst({
-        where: {
-          OR: [
-            {
-              userId: data.userId,
-              userRecId: data.followerId,
-            },
-            {
-              userId: data.followerId,
-              userRecId: data.userId,
-            },
-          ],
-        },
+      const roomUser = await roomController.handle({
+        follower: data.followerId,
+        userId: data.userId,
       });
-      const id = roomUser?.id;
+      const id = roomUser.body as string;
       if (id) socket.join(id);
     });
 
     socket.on("send_message", async (data) => {
-      console.log(data);
       await message.create({
         data: {
           message: data.message,
