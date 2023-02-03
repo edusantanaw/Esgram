@@ -17,7 +17,6 @@ export class FeedController {
       data.limit = Number(limit)
       data.start = Number(start)
       const posts = await this.loadPostUsecase.loadFeed(data);
-      console.log(posts)
       if (!posts) return notContent("Post");
       return ok(posts);
     } catch (error) {

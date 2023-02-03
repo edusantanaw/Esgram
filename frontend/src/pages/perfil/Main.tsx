@@ -1,5 +1,4 @@
-import { useLayoutEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useLayoutEffect, useState } from "react";import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Loading from "../../components/loading/Loading";
 import { selectUser } from "../../slices/userSlices";
@@ -7,9 +6,10 @@ import { Api } from "../../utils/api";
 import Perfil from "./components/Perfil";
 
 export const Main = () => {
-  const user = useSelector(selectUser).userReducer.user
+  const user = useSelector(selectUser).userReducer.user;
   const token = localStorage.getItem("@App:token");
   const { id } = useParams<{ id: string }>();
+  console.log(id);
   const [response, setResponse] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [currentPerfil, setCurrentPerfil] = useState<string | null>(null);
@@ -26,9 +26,7 @@ export const Main = () => {
       },
     })
       .then((response) => {
-        console.log(response)
         setResponse(response.data);
-
       })
       .finally(() => {
         setLoading(false);

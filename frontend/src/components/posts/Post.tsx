@@ -6,6 +6,7 @@ import { postlike } from "../../slices/postSlices";
 import { useAppDispatch } from "../../store/store";
 import PostModal from "./PostModal";
 import {Container} from './styles'
+import defaultImage from '../../assets/games.jpg'
 
 interface post {
   content?: string;
@@ -57,6 +58,12 @@ export const Post = ({ post, key }: { post: post; key: number }) => {
       {showModal && <PostModal id={modalId} handleModal={handleModal} />}
       <Container onClick={() => setModalId(post.id)}>
         <div className="header_post">
+        <object
+          data={`http://localhost:5001/users/${post.perfilPhoto}`}
+          type="image/png"
+        >
+          <img src={defaultImage} />
+        </object>
           <h3>{post.name}</h3>
         </div>
         <p>{post?.content}</p>

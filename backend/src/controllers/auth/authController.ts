@@ -1,4 +1,5 @@
-import { badRequest, catchError, ok } from "../../helpers/httpReponse";import { IValidator } from "../../protocols/helpers/validator";
+import { badRequest, catchError, ok } from "../../helpers/httpReponse";
+import { IValidator } from "../../protocols/helpers/validator";
 import { IAuthUsecase } from "../../protocols/usecases/auth/auth";
 
 export default class AuthController {

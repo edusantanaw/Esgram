@@ -10,7 +10,7 @@ interface user {
   perfilPhoto: string;
 }
 const Follows = () => {
-  const user = JSON.parse(localStorage.getItem("App:user") || "{}");
+  const user = JSON.parse(localStorage.getItem("@App:user") || "{}");
   const token = localStorage.getItem("@App:token");
   const { data } = useApi(`/users/followers/${user.id}`);
   const [following, setFollowing] = useState<user[]>([]);

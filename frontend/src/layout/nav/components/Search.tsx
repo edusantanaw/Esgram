@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Api } from "../../../utils/api";
 import { Container } from "./styles/search";
+import defaultImage from "../../../assets/games.jpg";
+import { makeOptions } from "../../../utils/helpers";
 
 interface user {
   name: string;
@@ -10,19 +12,16 @@ interface user {
 }
 
 const Search = () => {
-  const token = localStorage.getItem("@App:token");
   const search = useRef<HTMLInputElement | null>(null);
   const [users, setUsers] = useState<user[]>([]);
 
   async function handleSearch() {
     if (search.current && search.current.value) {
-      await Api.get(`/users/${search.current.value}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((response) => {
-        setUsers(response.data);
-      });
+      await Api.get(`/users/${search.current.value}`, makeOptions()).then(
+        (response) => {
+          setUsers(response.data);
+        }
+      );
       return;
     }
     setUsers([]);
@@ -38,14 +37,16 @@ const Search = () => {
         ref={search}
       />
       <ul>
-        {users.length > 0 ? (
+        {users && users.length > 0 ? (
           users.map((user: user, i: number) => (
             <Link to={`/perfil/${user.id}`} key={i}>
               <li>
-                <img
-                  src={`http://localhost:5001/users/${user.perfilPhoto}`}
-                  alt="user photo"
-                />
+                <object
+                  data={`http://localhost:5001/users/${user?.perfilPhoto}`}
+                  type="image/png"
+                >
+                  <img src={defaultImage} />
+                </object>
                 <span>{user.name}</span>
               </li>
             </Link>

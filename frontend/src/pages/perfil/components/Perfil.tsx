@@ -8,6 +8,7 @@ import { MdPersonAdd } from "react-icons/md";
 import { RiUserFollowFill } from "react-icons/ri";
 import { useAppDispatch } from "../../../store/store";
 import { addUserFollow } from "../../../slices/userSlices";
+import defaultImage from "../../../assets/games.jpg";
 
 interface user {
   name: string;
@@ -18,7 +19,7 @@ interface user {
 }
 
 const Perfil = ({ data, current }: { data: user; current: boolean }) => {
-  const user = JSON.parse(localStorage.getItem("App:user") || "{}");
+  const user = JSON.parse(localStorage.getItem("@App:user") || "{}");
   const token = localStorage.getItem("@App:token");
 
   const [following, setFollowing] = useState<user[]>([]);
@@ -89,10 +90,12 @@ const Perfil = ({ data, current }: { data: user; current: boolean }) => {
         show={showFollowing}
       />
       <div className="header">
-        <img
-          src={`http://localhost:5001/users/${data?.perfilPhoto}`}
-          alt="user photo"
-        />
+        <object
+          data={`http://localhost:5001/users/${data?.perfilPhoto}`}
+          type="image/png"
+        >
+          <img src={defaultImage} />
+        </object>
         <div className="right">
           <div className="name">
             <h2>{data?.name}</h2>

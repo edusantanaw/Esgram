@@ -1,15 +1,15 @@
-import { useEffect, useLayoutEffect, useState } from "react";
-import { getUserAndToken } from "../utils/helpers";
+import { useEffect, useState } from "react";
+import { userSlice } from "../slices/userSlices";
 
 export function userAuth() {
   const [isLogged, setIsLogged] = useState(false);
-  const {user} =getUserAndToken()
+
   useEffect(() => {
-    if (user) {
+    if (userSlice.getInitialState().logged) {
       setIsLogged(true);
     } else {
       setIsLogged(false);
     }
-  }, [user]);
+  }, [userSlice.getInitialState().logged]);
   return { isLogged };
 }

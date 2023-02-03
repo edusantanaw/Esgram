@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { addFollow, auth, logout, update } from "../services/userService";
+import { getUserAndToken } from "../utils/helpers";
 
-const storageUser = localStorage.getItem("App:user");
-const user = storageUser ? JSON.parse(storageUser) : null;
+const { user } = getUserAndToken();
 
 interface User {
   id?: string;

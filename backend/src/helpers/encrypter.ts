@@ -9,6 +9,7 @@ export class Encrypter {
   }
   async compare(password: string, hash: string) {
     const isEquals = await bcrypt.compare(password, hash);
+    console.log(await this.genHash(password), "hash:" + hash);
     return isEquals;
   }
 }

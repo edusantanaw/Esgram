@@ -7,7 +7,7 @@ const roomController = makeLoadRoomController();
 export default (server: Server) => {
   const io = new socket.Server(server, {
     cors: {
-      origin: "http://127.0.0.1:5173",
+      origin: "http://localhost:5173",
       methods: "*",
     },
   });

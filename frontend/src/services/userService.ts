@@ -1,4 +1,5 @@
-import { Api } from "../utils/api";import { getUserAndToken, makeOptions } from "../utils/helpers";
+import { Api } from "../utils/api";
+import { getUserAndToken, makeOptions } from "../utils/helpers";
 interface User {
   name?: string;
   password: string;
@@ -12,15 +13,15 @@ export async function auth(data: User) {
     .catch((error) => error.response.data);
 
   if (response.user && response.accessToken) {
-    localStorage.setItem("App:user", JSON.stringify(response.user));
+    localStorage.setItem("@App:user", JSON.stringify(response.user));
     localStorage.setItem("@App:token", response.accessToken);
   }
-  console.log(response)
+  console.log(response);
   return response;
 }
 
 export async function logout() {
-  localStorage.removeItem("App:user");
+  localStorage.removeItem("@App:user");
   localStorage.removeItem("@App:token");
   return;
 }
@@ -35,7 +36,7 @@ export async function update(data: FormData) {
     .then((response) => response.data)
     .catch((error) => error.response.data);
   if (response.userUpdated)
-    localStorage.setItem("App:user", JSON.stringify(response.userUpdated));
+    localStorage.setItem("@App:user", JSON.stringify(response.userUpdated));
 
   return response;
 }

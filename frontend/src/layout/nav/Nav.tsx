@@ -9,9 +9,11 @@ import { userLogout } from "../../slices/userSlices";
 import Search from "./components/Search";
 import Follows from "./components/Follows";
 import Messages from "./components/Messages";
+import { getUserAndToken } from "../../utils/helpers";
+import defaultImage from '../../assets/games.jpg'
+
 const Nav = () => {
-  
-  const user = JSON.parse(localStorage.getItem("App:user") || "{}");
+  const { user } = getUserAndToken();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -78,10 +80,12 @@ const Nav = () => {
             }}
           >
             <Link to={`/perfil/${user.id}`}>
-              <img
-                src={`http://localhost:5001/users/${user.perfilPhoto}`}
-                alt="user photo"
-              />
+              <object
+                data={`http://localhost:5001/users/${user.perfilPhoto}`}
+                type="image/png"
+              >
+                <img src={defaultImage} />
+              </object>
               <span>Perfil</span>
             </Link>
           </li>
@@ -89,7 +93,7 @@ const Nav = () => {
             onClick={() => {
               handleShowSearch();
               showFollow && setShowFollow(false);
-              showMessages && setShowMessages(false)
+              showMessages && setShowMessages(false);
               showSearch && setShowSearch(false);
             }}
           >
