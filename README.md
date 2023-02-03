@@ -1,5 +1,5 @@
 <h1 align="center">food-simulator</h1>
-https://user-images.githubusercontent.com/102832370/216640199-e74a641f-c76a-4f97-9d9a-923d2ba8f344.mp4
+<video src="https://user-images.githubusercontent.com/102832370/216640199-e74a641f-c76a-4f97-9d9a-923d2ba8f344.mp4" />
 
 <h2>Sobre</h2>
 <p>Uma rede social, onde permite que o usuario possar fazer post, seguir e ser seguido por outros usarios, enviar e receber mensagens privadas.</p>
