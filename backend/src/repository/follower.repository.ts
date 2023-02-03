@@ -19,6 +19,7 @@ export class FollowsRepository implements IFollowsRepository {
     inner join users on users.id = "Follows"."followerId"
     where "Follows"."followingId" = ${userId};`;
 
+    if (followers.length === 0) return null;
     return followers;
   }
 
@@ -27,7 +28,7 @@ export class FollowsRepository implements IFollowsRepository {
     select name, users.id, "perfilPhoto" from "Follows"
     inner join users on users.id = "Follows"."followingId"
     where "Follows"."followerId" = ${userId};`;
-
+    if (followings.length === 0) return null;
     return followings;
   }
 }

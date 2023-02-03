@@ -30,12 +30,12 @@ router.post("/user", adapter(makeSignupController()));
 router.post("/signin", adapter(makeAuthController()));
 
 router.get(
-  "/users/following/:id",
+  "/users/following/:userId",
   verifyTokenExists,
   adapter(makeLoadFollowingsController())
 );
 router.get(
-  "/users/followers/:id",
+  "/users/followers/:userId",
   verifyTokenExists,
   adapter(makeLoadFollowersController())
 );

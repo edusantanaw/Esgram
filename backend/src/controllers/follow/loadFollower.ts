@@ -11,8 +11,10 @@ export class LoadFollowerController {
 
   async handle({ userId }: { userId: string }) {
     try {
+      console.log(userId)
       if (!userId) return badRequest("User id is required!");
       const followers = await this.loadFollowsUsecase.loadFollowers(userId);
+      console.log(followers)
       if (!followers) return notContent("followers");
       return ok(followers);
     } catch (error) {

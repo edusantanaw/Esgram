@@ -14,6 +14,7 @@ export class LoadFollowingController {
       if (!userId) return badRequest("User id is required!");
       const following = await this.loadFollowsUsecase.loadFollowings(userId);
       if (!following) return notContent("following");
+      console.log(following)
       return ok(following);
     } catch (error) {
       return catchError(error);

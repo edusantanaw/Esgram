@@ -1,4 +1,5 @@
-import { useState } from "react";import { Container } from "../styles";
+import { useState } from "react";
+import { Container } from "../styles";
 import Follows from "./Follows";
 import { Posts } from "./Posts";
 import { useEffect } from "react";
@@ -7,8 +8,9 @@ import EditModal from "./../components/EditModal";
 import { MdPersonAdd } from "react-icons/md";
 import { RiUserFollowFill } from "react-icons/ri";
 import { useAppDispatch } from "../../../store/store";
-import { addUserFollow } from "../../../slices/userSlices";
+import { addUserFollow, selectUser } from "../../../slices/userSlices";
 import defaultImage from "../../../assets/games.jpg";
+import { useSelector } from "react-redux";
 
 interface user {
   name: string;
@@ -19,9 +21,8 @@ interface user {
 }
 
 const Perfil = ({ data, current }: { data: user; current: boolean }) => {
-  const user = JSON.parse(localStorage.getItem("@App:user") || "{}");
+  const user = useSelector(selectUser).userReducer.user;
   const token = localStorage.getItem("@App:token");
-
   const [following, setFollowing] = useState<user[]>([]);
   const [followers, setFollowers] = useState<user[]>([]);
   const [showFollowers, setShowFollowers] = useState(false);
@@ -39,7 +40,7 @@ const Perfil = ({ data, current }: { data: user; current: boolean }) => {
       .then((response) => {
         const users = response.data;
         const verifyAlreadyFollowing = users.filter(
-          (userID: user) => userID.id === user.id
+          (userID: user) => user && userID.id ===user.id
         );
         setFollowers(users);
         if (verifyAlreadyFollowing.length > 0) setFollowersActual(true);
@@ -99,10 +100,11 @@ const Perfil = ({ data, current }: { data: user; current: boolean }) => {
         <div className="right">
           <div className="name">
             <h2>{data?.name}</h2>
-            {user.id === data?.id && (
+            {user && user.id === data?.id && (
               <button onClick={() => handleEdit()}>Editar perfil</button>
             )}
-            {user.id !== data.id &&
+            {user &&
+              user.id !== data.id &&
               (followersActual ? (
                 <RiUserFollowFill />
               ) : (
